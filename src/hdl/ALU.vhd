@@ -68,11 +68,8 @@ architecture behavioral of ALU is
         );
     end component;
 
-    -- adder signals
-    signal w_s0 : std_logic_vector (2 downto 0) := "00";
-    signal w_addResult  : std_logic_vector (8 downto 0) := "000000000";
-    -- gate signals
-    signal w_B, w_and, w_or, w_gatesResult  :   std_logic_vector (7 downto 0)  :=   "00000000";
+    signal w_Result  : std_logic_vector (8 downto 0) := "000000000";
+    signal w_B  :   std_logic_vector (7 downto 0)  :=   "00000000";
     
 
 begin
@@ -84,7 +81,7 @@ begin
         i_B     => w_B,
         i_cIn   => i_op(0),
         o_cOut  => o_flags(2),
-        o_add   => w_addResult
+        o_add   => w_Result
     );
     
     gates_inst   :   gates
@@ -92,7 +89,7 @@ begin
         i_A         => i_A,
         i_B         => i_B,
         i_select    => i_op(0),
-        o_andOR     => w_gatesResult
+        o_andOR     => w_Result
     );
    
 	
@@ -102,17 +99,19 @@ begin
 	w_B <= i_B when i_op(0) = '0' else
 	       not i_B;
 	
-    w_addResult <= std_logic_vector(unsigned('0'&i_A) + unsigned('0'&w_B)) when i_op = "000" else
-                   std_logic_vector(unsigned('0'&i_A) - not unsigned('0'&w_B)) when i_op = "001";
-                   
-    w_gatesResult   <=  std_logic_vector(unsigned('0'&i_A) and unsigned('0'&w_B)) when i_op = "010" else
-                        std_logic_vector(unsigned('0'&i_A) or not unsigned('0'&w_B)) when i_op = "011";
-
-    --cOut logic     
+    w_Result <= std_logic_vector(unsigned('0'&i_A) + unsigned('0'&w_B)) when i_op = "000" else
+                std_logic_vector(unsigned('0'&i_A) - not unsigned('0'&w_B)) when i_op = "001" else
+                std_logic_vector(unsigned('0'&i_A) and unsigned('0'&w_B)) when i_op = "010" else
+                std_logic_vector(unsigned('0'&i_A) or not unsigned('0'&w_B)) when i_op = "011";
+                
+                -- these will be used to shift left and right later on.
+--                std_logic_vector(unsigned('0'&i_A) << unsigned('0'&w_B)) when i_op = "011";
+--                std_logic_vector(unsigned('0'&i_A) >> unsigned('0'&w_B)) when i_op = "011";
     
-    -- What's wrong with these lines?   
---    o_flags(0) <= '1' when (o_result = "00000000");  
-    o_flags(1) <= w_addResult(8);    
---    o_flags(2) <= '1' when (o_result(7) = '1');
+    -- Re-check these Lines Later!
+    
+    o_flags(0) <= '1' when (w_Result = "00000000");
+    o_flags(1) <= w_Result(8);
+    o_flags(2) <= '1' when (w_Result(7) = '1');
     
 end behavioral;

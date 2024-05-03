@@ -61,8 +61,6 @@ entity top_basys3 is
 
         btnU    :   in std_logic; -- master_reset
 
---        btnL    :   in std_logic; -- clk_reset
-
         btnC    :   in std_logic; -- fsm_reset
 
         -- outputs
