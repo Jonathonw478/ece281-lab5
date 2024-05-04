@@ -69,7 +69,7 @@ entity top_basys3 is
 
         -- 7-segment display segments (active-low cathodes)
 
-        seg :   out std_logic_vector(7 downto 0);
+        seg :   out std_logic_vector(6 downto 0);
 
         -- 7-segment display active-low enables (anodes)
 
