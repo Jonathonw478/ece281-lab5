@@ -257,18 +257,41 @@ architecture top_basys3_arch of top_basys3 is
 
     -- SIGNALS ---------------------------------------------------------   
 
-	signal w_clk : std_logic;		
+	signal w_clk1, w_clk2 : std_logic;		
 
     signal w_sign, w_hund, w_tens, w_ones : std_logic_vector (3 downto 0);
 
     signal w_regA, w_regB, w_alu, w_display: std_logic_vector (7 downto 0); 
 
     signal w_cycle, w_seg, w_sel, w_dataTDM : std_logic_vector (3 downto 0);
---    signal   f_sel         : unsigned(1 downto 0)    := "00"; -- 2 bit counter output to select MUX input
 
 begin
 
 	-- PORT MAPS --------------------------------------------------------
+	
+    clkdiv_inst1 : clock_divider         --instantiation of clock_divider to take 
+
+           generic map ( k_DIV => 12500000 )
+
+           port map (                          
+
+               i_clk   => clk,
+
+               o_clk    => w_clk1
+
+           );     
+           
+    clkdiv_inst2 : clock_divider         --instantiation of clock_divider to take 
+       
+              generic map ( k_DIV => 208000 )
+   
+              port map (                          
+   
+                  i_clk   => clk,
+   
+                  o_clk    => w_clk2
+   
+              );    
 
     controller_fsm_isnt: controller_fsm
 
@@ -280,7 +303,7 @@ begin
     
                 o_cycle => w_cycle,
                 
-                i_clk => clk
+                i_clk => w_clk1
     
             );
 
@@ -292,25 +315,13 @@ begin
 
                o_S => seg
 
-           );
-
-    clkdiv_inst : clock_divider         --instantiation of clock_divider to take 
-
-           generic map ( k_DIV => 50000000 ) -- 1 Hz clock from 100 MHz
-
-           port map (                          
-
-               i_clk   => clk,
-
-               o_clk    => w_clk
-
-           ); 	
+           ); 
 
 	TDM4_inst: TDM4
 
           port map(
 
-              i_clk => w_clk,
+              i_clk => w_clk2,
 
               i_sign => w_sign,
 
@@ -334,7 +345,7 @@ begin
 
               i_B => w_regB,
 
-              i_op => sw(3 downto 0),
+              i_op => sw(2 downto 0),
 
               o_result => w_alu,
               
@@ -430,7 +441,7 @@ begin
 
 	led(12 downto 4) <= (others => '0');
 	
-    an(4 downto 0) <= "1111" when w_cycle = "0001" else 
+    an(3 downto 0) <= "1111" when w_cycle = "0001" else 
                     w_sel;
             
     w_display <= w_regA when w_cycle = "0010" else 
