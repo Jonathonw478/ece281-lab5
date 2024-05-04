@@ -179,7 +179,7 @@ architecture top_basys3_arch of top_basys3 is
 
          i_D : in std_logic_vector (3 downto 0);
 
-         o_S : out std_logic_vector (7 downto 0)
+         o_S : out std_logic_vector (6 downto 0)
 
       );    
 
