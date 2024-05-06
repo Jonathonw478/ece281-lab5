@@ -103,7 +103,7 @@ architecture top_basys3_arch of top_basys3 is
 
     component regA is
 
-        port( i_cycle  : in STD_LOGIC_VECTOR (3 downto 0); 
+        port( i_cycle  : in STD_LOGIC_VECTOR (2 downto 0); 
 
               i_regA : in STD_LOGIC_VECTOR (7 downto 0);
 
@@ -113,7 +113,7 @@ architecture top_basys3_arch of top_basys3 is
 
     component regB is
 
-        port( i_cycle  : in STD_LOGIC_VECTOR (3 downto 0); 
+        port( i_cycle  : in STD_LOGIC_VECTOR (2 downto 0); 
 
               i_regB : in STD_LOGIC_VECTOR (7 downto 0);
 
@@ -131,7 +131,7 @@ architecture top_basys3_arch of top_basys3 is
                
                i_clk        : in STD_LOGIC;
 
-               o_cycle      : out STD_LOGIC_VECTOR (3 downto 0));
+               o_cycle      : out STD_LOGIC_VECTOR (2 downto 0));
 
     end component controller_fsm;
 
@@ -194,7 +194,7 @@ architecture top_basys3_arch of top_basys3 is
          i_B : in std_logic_vector (7 downto 0);
 
          i_op : in std_logic_vector (2 downto 0);
-
+         
          o_result : out std_logic_vector (7 downto 0);
 
          o_flags : out std_logic_vector (2 downto 0)
@@ -263,7 +263,11 @@ architecture top_basys3_arch of top_basys3 is
 
     signal w_regA, w_regB, w_alu, w_display: std_logic_vector (7 downto 0); 
 
-    signal w_cycle, w_seg, w_sel, w_dataTDM : std_logic_vector (3 downto 0);
+    signal w_seg, w_sel, w_dataTDM : std_logic_vector (3 downto 0);
+    
+    signal w_cycle : std_logic_vector (2 downto 0);
+
+    
 
 begin
 
@@ -284,7 +288,7 @@ begin
     clkdiv_inst2 : clock_divider         --instantiation of clock_divider to take 
        
               generic map ( k_DIV => 208000 )
-   
+  
               port map (                          
    
                   i_clk   => clk,
