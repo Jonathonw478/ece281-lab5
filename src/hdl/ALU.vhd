@@ -89,7 +89,8 @@ begin
 	w_B <= i_B when i_op(0) = '0' else
 	       not i_B;
    w_carryResult <= std_logic_vector(unsigned('0'&i_A) + unsigned('0'&w_B)) when i_op = "000" else
-                    std_logic_vector(unsigned('0'&i_A) and unsigned('0'&w_B)) when i_op = "010";
+                    std_logic_vector(unsigned('0'&i_A) and unsigned('0'&w_B)) when i_op = "010" else
+                    std_logic_vector(unsigned('0'&i_A) - not unsigned('0'&w_B)) when i_op = "010";
                 -- +/- logic
     w_Result <= std_logic_vector(unsigned(i_A) + unsigned(w_B)) when i_op = "000" else
                 std_logic_vector(unsigned(i_A) - not unsigned(w_B)) when i_op = "001" else
@@ -104,7 +105,7 @@ begin
     o_Result <= w_Result;
     -- Re-check these Lines Later!
     -- Need to figure out a way to pass the flags only when on cycle "1000" or cycle that completes the calculation
-    o_flags(0) <= '1' when (w_Result = "00000000" and i_cycle = "0100") else '0';
-    o_flags(1) <= w_carryResult(8) when i_cycle = "1000";
+    o_flags(1) <= '1' when (w_Result = "00000000" and i_cycle = "0100") else '0';
+    o_flags(0) <= w_carryResult(8) when i_cycle = "1000";
     o_flags(2) <= w_Result(7) when i_cycle = "1000";
 end behavioral;
