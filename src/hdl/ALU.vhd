@@ -92,19 +92,19 @@ begin
                     std_logic_vector(unsigned('0'&i_A) and unsigned('0'&w_B)) when i_op = "010";
                 -- +/- logic
     w_Result <= std_logic_vector(unsigned(i_A) + unsigned(w_B)) when i_op = "000" else
-                std_logic_vector(unsigned(i_A) - not unsigned(w_B)) when i_op = "001";
+                std_logic_vector(unsigned(i_A) - not unsigned(w_B)) when i_op = "001" else
 --                -- and/or logic
---                std_logic_vector(unsigned(i_A) and unsigned(w_B)) when i_op = "010" else
---                std_logic_vector(unsigned(i_A) or not unsigned(w_B)) when i_op = "011" else
---                -- right/left shift logic
---                std_logic_vector(shift_right(unsigned(i_A),to_integer(unsigned(i_B)))) when i_op = "100" else
---                std_logic_vector(shift_left(unsigned(i_A),to_integer(unsigned(i_B)))) when i_op = "101";
+                std_logic_vector(unsigned(i_A) and unsigned(w_B)) when i_op = "010" else
+                std_logic_vector(unsigned(i_A) or not unsigned(w_B)) when i_op = "011" else
+                -- right/left shift logic
+                std_logic_vector(shift_right(unsigned(i_A),to_integer(unsigned(i_B)))) when i_op = "100" else
+                std_logic_vector(shift_left(unsigned(i_A),to_integer(unsigned(i_B)))) when i_op = "101";
  
     -- Pass the answer to the output
     o_Result <= w_Result;
     -- Re-check these Lines Later!
     -- Need to figure out a way to pass the flags only when on cycle "1000" or cycle that completes the calculation
-    o_flags(0) <= '1' when (w_Result = "00000000" and i_cycle = "1000") else '0';
+    o_flags(0) <= '1' when (w_Result = "00000000" and i_cycle = "0100") else '0';
     o_flags(1) <= w_carryResult(8) when i_cycle = "1000";
     o_flags(2) <= w_Result(7) when i_cycle = "1000";
 end behavioral;
