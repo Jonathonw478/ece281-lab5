@@ -105,11 +105,11 @@ begin
  
  
     w_carryResult <= std_logic_vector(unsigned('0'&i_A) + unsigned('0'&w_B)) when i_op = "000" else
-                 std_logic_vector(unsigned('0'&i_A) and unsigned('0'&w_B)) when i_op = "010" else
-                 std_logic_vector((unsigned('0'&i_A)) + (unsigned(not '0'&w_B)+1)) when i_op = "010";
+                     std_logic_vector((unsigned('0'&i_A)) + (unsigned(not '0'&w_B)+1)) when i_op = "001" else
+                    std_logic_vector(unsigned('0'&i_A) and unsigned('0'&w_B)) when i_op = "010";
                              -- +/- logic
      w_Result <= std_logic_vector(unsigned(i_A) + unsigned(w_B)) when i_op = "000" else
-                 std_logic_vector(unsigned(i_A) - (unsigned(not w_B))) when i_op = "001" else
+                 std_logic_vector(unsigned(i_A) + (unsigned(not w_B) + 1)) when i_op = "001" else
  --                -- and/or logic
                  std_logic_vector(unsigned(i_A) and unsigned(w_B)) when i_op = "010" else
                  std_logic_vector(unsigned(i_A) or unsigned(w_B)) when i_op = "011" else
