@@ -115,7 +115,10 @@ begin
                  std_logic_vector(unsigned(i_A) or unsigned(w_B)) when i_op = "011" else
 --                 -- right/left shift logic
                  std_logic_vector(shift_right(unsigned(i_A),to_integer(unsigned(i_B)))) when i_op = "100" else
-                 std_logic_vector(shift_left(unsigned(i_A),to_integer(unsigned(i_B)))) when i_op = "101";
+                 std_logic_vector(shift_left(unsigned(i_A),to_integer(unsigned(i_B)))) when i_op = "101" else
+                 
+                 std_logic_vector(not(unsigned(i_A) and unsigned(w_B))) when i_op = "110" else
+                 std_logic_vector(not(unsigned(i_A) or unsigned(w_B))) when i_op = "111";
                  
     -- Pass the answer to the output
     o_Result <= w_Result;
