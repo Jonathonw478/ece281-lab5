@@ -40,6 +40,10 @@ end regB;
 architecture Behavioral of regB is
 
 begin
-
-
+    process (i_cycle)
+    begin
+        if (i_cycle = "0010") then
+            o_regB <= i_regB;
+        end if;
+    end process;
 end Behavioral;
