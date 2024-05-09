@@ -40,6 +40,11 @@ end regA;
 architecture Behavioral of regA is
 
 begin
-
-
+    process (i_cycle)
+    begin
+        if (i_cycle = "0001") then
+            o_regA <= i_regA;
+        end if;
+    end process;
 end Behavioral;
+
