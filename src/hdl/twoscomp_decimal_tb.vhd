@@ -41,23 +41,23 @@ begin
     begin
         w_bin <= "00000000";
         wait for 10 ns;
-        assert w_sign = '0' and w_hund = "0000" and w_tens = "0000" and w_ones = "0000" report "Bad convert 0" severity error;
+        assert w_sign = "0000" and w_hund = "0000" and w_tens = "0000" and w_ones = "0000" report "Bad convert 0" severity error;
         
         w_bin <= "11110000";
         wait for 10 ns;
-        assert w_sign = '1' and w_hund = "0000" and w_tens = "0001" and w_ones = "0110" report "Bad convert -16" severity error;
+        assert w_sign = "0001" and w_hund = "0000" and w_tens = "0001" and w_ones = "0110" report "Bad convert -16" severity error;
         
         w_bin <= "00111010";
         wait for 10 ns;
-        assert w_sign = '0' and w_hund = "0000" and w_tens = "0101" and w_ones = "1000" report "Bad convert 58" severity error;
+        assert w_sign = "0000" and w_hund = "0000" and w_tens = "0101" and w_ones = "1000" report "Bad convert 58" severity error;
         
         w_bin <= "01101111";
         wait for 10 ns;
-        assert w_sign = '0' and w_hund = "0001" and w_tens = "0001" and w_ones = "0001" report "Bad convert 111" severity error;
+        assert w_sign = "0000" and w_hund = "0001" and w_tens = "0001" and w_ones = "0001" report "Bad convert 111" severity error;
         
         w_bin <= "10001000";
         wait for 10 ns;
-        assert w_sign = '1' and w_hund = "0001" and w_tens = "0010" and w_ones = "0000" report "Bad convert -120" severity error;
+        assert w_sign = "0001" and w_hund = "0001" and w_tens = "0010" and w_ones = "0000" report "Bad convert -120" severity error;
 
         wait;
     end process;
